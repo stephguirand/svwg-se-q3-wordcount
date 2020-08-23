@@ -25,33 +25,63 @@ should return a dictionary with words as keys, and their counts as values.
 
 # Your name, plus anyone who helped you with this assignment
 # Give credit where credit is due.
-__author__ = "???"
-
 import sys
+__author__ = """
+stephguirand,
+Help from demo, lessons and activities,
+youtube videos in canvas and
+own search on youtube,
+stack overflow, Tutors, Facilitators and talking about
+assignment in study group"""
+
+
+"""Returns a word/count dict for the given file."""
 
 
 def create_word_dict(filename):
-    """Returns a word/count dict for the given file."""
-    # Your code here
-    return
+    f = open(filename, 'r')
+    file_info = dict()
+    for line in f:
+        words = line.split()
+        for word in words:
+            file_info[word.lower()] = file_info.get(word.lower(), 0) + 1
+    f.close()
+    return file_info
+
+
+"""Prints one per line '<word> : <count>', sorted
+   by word for the given file."""
 
 
 def print_words(filename):
-    """Prints one per line '<word> : <count>', sorted
-    by word for the given file.
-    """
-    # Your code here
-    return
+    p_words = create_word_dict(filename)
+    words = sorted(p_words.keys())
+    for word in words:
+        print(word, p_words[word])
+        # return p_words
+
+
+"""Prints the top count listing for the given file."""
 
 
 def print_top(filename):
-    """Prints the top count listing for the given file."""
-    # Your code here
-    return
+    p_words = create_word_dict(filename)
+    # Sort them so the
+    p_wordsList = sorted(p_words.items(), key=get_count, reverse=True)
+    for item in p_wordsList[:20]:
+        print(item[0], item[1])
 
 
-# This basic command line argument parsing code is provided and calls
-# the print_words() and print_top() functions which you must implement.
+"""Returns the count from a dict word/count tuple used for sort"""
+
+
+def get_count(p_words_tuple):
+    return p_words_tuple[1]
+
+    # This basic command line argument parsing code is provided and calls
+    # the print_words() and print_top() functions which you must implement.
+
+
 def main(args):
     if len(args) != 2:
         print('usage: python wordcount.py {--count | --topcount} file')
